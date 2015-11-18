@@ -48,11 +48,12 @@ splitNodeForBestGini <- function(nodes, inputLabel, midPoints) {
 }
 
 split <- function(nodes, inputLabels) {
+  print(nodes)
   bestInputLabelWiseGini <- 1.0
   bestResult <- NULL
   for(inputLabel in inputLabels) {
     midPoints <- getMidPoints(nodes[[inputLabel]])
-    if (length(midPoints) < 2) {
+    if (length(midPoints) == 0) {
       next
     }
     bestLabelwiseResult <- splitNodeForBestGini(nodes, inputLabel, midPoints)
@@ -111,7 +112,7 @@ main <- function() {
   tree = split(iris, inputLabels)
   inferred <- apply(iris, 1, function(row) classifyByTree(tree, row))
   actual <- iris[["Species"]] == "versicolor"
-  print(data.frame(inferred, actual))
+  print(data.frame(inferred=inferred, actual=actual))
 
   # return(traverseTree(tree, list(inputLabel = c(), threshold = c())))
 }
